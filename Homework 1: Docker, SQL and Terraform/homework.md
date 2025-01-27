@@ -25,6 +25,10 @@ What's the version of `pip` in the image?
 - 23.3.1
 - 23.2.1
 
+### Answer: 24.3.1
+
+
+![](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%201%3A%20Docker%2C%20SQL%20and%20Terraform/images/HW1_Q1_VersionOfpip.png)
 
 ## Question 2. Understanding Docker networking and docker-compose
 
@@ -70,6 +74,7 @@ volumes:
 
 If there are more than one answers, select only one of them
 
+### Answer: db:5432
 ##  Prepare Postgres
 
 Run Postgres and load data as shown in the videos
@@ -99,13 +104,28 @@ During the period of October 1st 2019 (inclusive) and November 1st 2019 (exclusi
 4. In between 7 (exclusive) and 10 miles (inclusive),
 5. Over 10 miles 
 
-Answers:
+### Answer: 104,802;  198,924;  109,603;  27,678;  35,189
 
-- 104,802;  197,670;  110,612;  27,831;  35,281
-- 104,802;  198,924;  109,603;  27,678;  35,189
-- 104,793;  201,407;  110,612;  27,831;  35,281
-- 104,793;  202,661;  109,603;  27,678;  35,189
-- 104,838;  199,013;  109,645;  27,688;  35,202
+```sql
+SELECT
+
+  CASE 
+    WHEN trip_distance <= 1 THEN '1_UpTo1Mile'
+    WHEN trip_distance > 1 AND trip_distance <= 3 THEN '2_OneToThreeMile'
+    WHEN trip_distance > 3 AND trip_distance <= 7 THEN '3_ThreeToSevenMile'
+    WHEN trip_distance > 7 AND trip_distance <= 10 THEN '4_SevenToTenMile'
+    WHEN trip_distance > 10 THEN '5_OverTenMile'
+  END AS trip_distance_category,
+  COUNT(*) AS trip_count
+
+FROM public.green_taxi_trips_2019_10
+WHERE 
+  lpep_dropoff_datetime >= '2019-10-01' AND
+  lpep_dropoff_datetime < '2019-11-01'
+GROUP BY trip_distance_category	
+ORDER BY trip_distance_category
+```
+![Q3](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%201%3A%20Docker%2C%20SQL%20and%20Terraform/images/HW1_Q3.png)
 
 
 ## Question 4. Longest trip for each day
@@ -120,6 +140,17 @@ Tip: For every day, we only care about one single trip with the longest distance
 - 2019-10-26
 - 2019-10-31
 
+### Answers: 2019-10-31
+
+```sql
+SELECT 
+    lpep_pickup_datetime, 
+    trip_distance 
+FROM public.green_taxi_trips_2019_10
+ORDER BY trip_distance DESC
+```
+![Q4](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%201%3A%20Docker%2C%20SQL%20and%20Terraform/images/HW1_Q4.png)
+
 
 ## Question 5. Three biggest pickup zones
 
@@ -128,11 +159,23 @@ Which were the top pickup locations with over 13,000 in
 
 Consider only `lpep_pickup_datetime` when filtering by date.
  
-- East Harlem North, East Harlem South, Morningside Heights
-- East Harlem North, Morningside Heights
-- Morningside Heights, Astoria Park, East Harlem South
-- Bedford, East Harlem North, Astoria Park
+#### Answers: East Harlem North, East Harlem South, Morningside Heights
 
+```sql
+SELECT 
+	A."PULocationID", 
+	B."Zone",
+	SUM("total_amount") AS total_amount 
+FROM public.green_taxi_trips_2019_10 AS A
+INNER JOIN public.zones AS B
+	ON A."PULocationID" = B."LocationID"
+WHERE 
+	A.lpep_pickup_datetime >= '2019-10-18' AND 
+	A.lpep_pickup_datetime < '2019-10-19' 
+group BY A."PULocationID",B."Zone"
+order BY total_amount DESC
+```
+![Q5](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%201%3A%20Docker%2C%20SQL%20and%20Terraform/images/HW1_Q5.png)
 
 ## Question 6. Largest tip
 
@@ -144,10 +187,19 @@ Note: it's `tip` , not `trip`
 
 We need the name of the zone, not the ID.
 
-- Yorkville West
-- JFK Airport
-- East Harlem North
-- East Harlem South
+### Answer: JFK Airport
+```sql
+SELECT
+  C."Zone",* 
+FROM public.green_taxi_trips_2019_10 AS A
+INNER JOIN public.zones AS B
+	ON A."PULocationID"=B."LocationID" 
+INNER JOIN public.zones AS C 
+	ON A."DOLocationID"=C."LocationID" 
+WHERE B."Zone"='East Harlem North'
+ORDER  BY TIP_AMOUNT DESC LIMIT 1
+```
+![Q6](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%201%3A%20Docker%2C%20SQL%20and%20Terraform/images/HW1_Q6.png)
 
 
 ## Terraform
@@ -168,13 +220,7 @@ Which of the following sequences, **respectively**, describes the workflow for:
 2. Generating proposed changes and auto-executing the plan
 3. Remove all resources managed by terraform`
 
-Answers:
-- terraform import, terraform apply -y, terraform destroy
-- teraform init, terraform plan -auto-apply, terraform rm
-- terraform init, terraform run -auto-approve, terraform destroy
-- terraform init, terraform apply -auto-approve, terraform destroy
-- terraform import, terraform apply -y, terraform rm
-
+### Answers: terraform init, terraform apply -auto-approve, terraform destroy
 
 ## Submitting the solutions
 
