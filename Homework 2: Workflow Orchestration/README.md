@@ -13,7 +13,13 @@ Complete the Quiz shown below. It’s a set of 6 multiple-choice questions to te
 
 ### Answer: 128.3 MB
 
+Execute the flow `06_gcp_taxi`
+
 ![HW2_Q1](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%202%3A%20Workflow%20Orchestration/images/HW2_Q1.png)
+
+Check the file size in GCP Bucket
+
+![HW2_Q1_2](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%202%3A%20Workflow%20Orchestration/images/HW2_Q1_02.png)
 
 2) What is the rendered value of the variable `file` when the inputs `taxi` is set to `green`, `year` is set to `2020`, and `month` is set to `04` during execution?
 - `{{inputs.taxi}}_tripdata_{{inputs.year}}-{{inputs.month}}.csv` 
@@ -31,7 +37,11 @@ Complete the Quiz shown below. It’s a set of 6 multiple-choice questions to te
 
 ### Answer: 24,648,499
 
+In the flow `06_gcp_taxi_scheduled`, click `Backfill executions` under `Triggers` tab, set up duration from `2020-01-01 00:00:00` to `2020-12-31 23:59:59`and select `yellow` as taxi type
+
 ![HW3_Q3](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%202%3A%20Workflow%20Orchestration/images/HW2_Q3.png)
+
+Check `Number of rows` in the `details` of table `yellow_tripdata` in GCP
 
 ![HW3_Q3_2](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%202%3A%20Workflow%20Orchestration/images/HW2_Q3_02.png)
 
@@ -42,7 +52,13 @@ Complete the Quiz shown below. It’s a set of 6 multiple-choice questions to te
 - 1,342,034
 
 ### Answer: 1,734,051
+
+In the flow `06_gcp_taxi_scheduled`, click `Backfill executions` under `Triggers` tab, set up duration from `2020-01-01 00:00:00` to `2020-12-31 23:59:59`and select `green` as taxi type
+
 ![HW4_Q4](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%202%3A%20Workflow%20Orchestration/images/HW2_Q4.png)
+
+Check `Number of rows` in the `details` of table `green_tripdata` in GCP
+
 ![HW4_Q4_2](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%202%3A%20Workflow%20Orchestration/images/HW2_Q4_02.png)
 
 
@@ -53,7 +69,13 @@ Complete the Quiz shown below. It’s a set of 6 multiple-choice questions to te
 - 2,561,031
 
 ### Answer: 1,925,152
+
+Execute the flow `06_gcp_taxi` 
+
 ![HW4_Q5](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%202%3A%20Workflow%20Orchestration/images/HW2_Q5.png)
+
+Check `Number of rows` in the `details` of table `yellow_tripdata_2021_03` in GCP
+
 ![HW4_Q5_2](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%202%3A%20Workflow%20Orchestration/images/HW2_Q5_02.png)
 
 6) How would you configure the timezone to New York in a Schedule trigger?
@@ -63,3 +85,5 @@ Complete the Quiz shown below. It’s a set of 6 multiple-choice questions to te
 - Add a `location` property set to `New_York` in the `Schedule` trigger configuration  
 
 ### Answer: Add a `timezone` property set to `America/New_York` in the `Schedule` trigger configuration
+
+## !!IMPORTANT!! Don't include any credentials information!!
