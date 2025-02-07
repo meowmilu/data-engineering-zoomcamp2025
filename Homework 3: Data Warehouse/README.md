@@ -23,7 +23,7 @@ Create a (regular/materialized) table in BQ using the Yellow Taxi Trip Records (
 
 ![HW3_Prepare](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%203%3A%20Data%20Warehouse/images/HW3_Prepare.png)
 ```sql
--- Creating external table referring to gcs path
+-- Creating an external table referring to gcs path
 CREATE OR REPLACE EXTERNAL TABLE `kestra-nancy.de_zoomcamp.external_yellow_tripdata`
 OPTIONS (
   format = 'PARQUET',
