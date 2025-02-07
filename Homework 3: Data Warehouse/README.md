@@ -47,7 +47,7 @@ Question 1: What is count of records for the 2024 Yellow Taxi Data?
 - 20,332,093
 - 85,431,289
 
-## Answer: 20,332,093
+### Answer: 20,332,093
 
 ![HW3_Q1](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%203%3A%20Data%20Warehouse/images/HW3_Q1.png)
 
@@ -60,7 +60,7 @@ What is the **estimated amount** of data that will be read when this query is ex
 - 2.14 GB for the External Table and 0MB for the Materialized Table
 - 0 MB for the External Table and 0MB for the Materialized Table
 
-## Answer: 0 MB for the External Table and 155.12 MB for the Materialized Table
+### Answer: 0 MB for the External Table and 155.12 MB for the Materialized Table
 
 ![HW3_Q2](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%203%3A%20Data%20Warehouse/images/HW3_Q2.png)
 ![HW3_Q2_02](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%203%3A%20Data%20Warehouse/images/HW3_Q2_02.png)
@@ -73,7 +73,7 @@ doubling the estimated bytes processed.
 - BigQuery automatically caches the first queried column, so adding a second column increases processing time but does not affect the estimated bytes scanned.
 - When selecting multiple columns, BigQuery performs an implicit join operation between them, increasing the estimated bytes processed
 
-## Answer: BigQuery is a columnar database, and it only scans the specific columns requested in the query. Querying two columns (PULocationID, DOLocationID) requires 
+### Answer: BigQuery is a columnar database, and it only scans the specific columns requested in the query. Querying two columns (PULocationID, DOLocationID) requires 
 reading more data than querying one column (PULocationID), leading to a higher estimated number of bytes processed.
 
 ## Question 4:
@@ -83,7 +83,7 @@ How many records have a fare_amount of 0?
 - 20,188,016
 - 8,333
 
-## Answer: 8,333
+### Answer: 8,333
 ```sql
 SELECT count(fare_amount) from `kestra-nancy.de_zoomcamp.yellow_tripdata`
 WHERE fare_amount = 0
@@ -104,7 +104,7 @@ PARTITION BY DATE(tpep_dropoff_datetime)
 CLUSTER BY VendorID AS
 SELECT * FROM `kestra-nancy.de_zoomcamp.yellow_tripdata`;
 ```
-## Answer: Partition by tpep_dropoff_datetime and Cluster on VendorID
+### Answer: Partition by tpep_dropoff_datetime and Cluster on VendorID
 
 ![HW3_Q5](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%203%3A%20Data%20Warehouse/images/HW3_Q5.png)
 
@@ -121,7 +121,7 @@ Choose the answer which most closely matches.</br>
 - 5.87 MB for non-partitioned table and 0 MB for the partitioned table
 - 310.31 MB for non-partitioned table and 285.64 MB for the partitioned table
 
-## Answer: 310.24 MB for non-partitioned table and 26.84 MB for the partitioned table
+### Answer: 310.24 MB for non-partitioned table and 26.84 MB for the partitioned table
 
 ![HW3_Q6](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%203%3A%20Data%20Warehouse/images/HW3_Q6.png)
 ![HW3_Q6_02](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%203%3A%20Data%20Warehouse/images/HW3_Q6_02.png)
@@ -134,18 +134,18 @@ Where is the data stored in the External Table you created?
 - GCP Bucket
 - Big Table
 
-## Answer: GCP Bucket
+### Answer: GCP Bucket
 
 ## Question 8:
 It is best practice in Big Query to always cluster your data:
 - True
 - False
 
-## Answer: False
+### Answer: False
 
 
 ## (Bonus: Not worth points) Question 8:
 No Points: Write a `SELECT count(*)` query FROM the materialized table you created. How many bytes does it estimate will be read? Why?
 
-## Answer: 0 byte. In BigQuery, it retrieves the count from metadata instead of scanning the full table. 
+### Answer: 0 byte. In BigQuery, it retrieves the count from metadata instead of scanning the full table. 
 
