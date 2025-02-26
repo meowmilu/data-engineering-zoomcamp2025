@@ -192,7 +192,7 @@ quarterly_growth AS (
 SELECT * FROM quarterly_growth 
 
 ```
-
+![HW4_Q5](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%203%3A%20Data%20Warehouse/images/HW3_Prepare.png)
 
 ### Question 6: P97/P95/P90 Taxi Monthly Fare
 
