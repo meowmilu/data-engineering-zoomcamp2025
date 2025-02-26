@@ -159,6 +159,40 @@ Considering the YoY Growth in 2020, which were the yearly quarters with the best
 - green: {best: 2020/Q1, worst: 2020/Q2}, yellow: {best: 2020/Q1, worst: 2020/Q2}
 - green: {best: 2020/Q1, worst: 2020/Q2}, yellow: {best: 2020/Q3, worst: 2020/Q4}
 
+```sql
+
+{{
+    config(
+        materialized='table'
+    )
+}}
+
+with quarterly_revenue as (
+    SELECT
+        service_type,
+        EXTRACT(YEAR FROM pickup_datetime) AS year,
+        EXTRACT(QUARTER FROM pickup_datetime) AS quarter,
+        SUM(total_amount) AS revenue
+    FROM {{ ref('fact_trips') }}
+    WHERE pickup_datetime >= '2019-01-01 00:00:00' AND pickup_datetime < '2021-01-01 00:00:00'
+    GROUP BY service_type, year, quarter
+),
+
+quarterly_growth AS (
+    SELECT 
+        year,
+        quarter,
+        service_type,
+        revenue,
+        LAG(revenue) OVER (PARTITION BY service_type, quarter ORDER BY year) AS prev_year_revenue,
+        (revenue - LAG(revenue) OVER (PARTITION BY service_type, quarter ORDER BY year)) / 
+        NULLIF(LAG(revenue) OVER (PARTITION BY service_type, quarter ORDER BY year), 0) AS yoy_growth
+    FROM quarterly_revenue
+)
+SELECT * FROM quarterly_growth 
+
+```
+
 
 ### Question 6: P97/P95/P90 Taxi Monthly Fare
 
