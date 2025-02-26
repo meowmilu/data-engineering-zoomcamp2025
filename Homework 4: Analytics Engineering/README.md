@@ -89,6 +89,8 @@ Select the option that does **NOT** apply for materializing `fct_taxi_monthly_zo
 - `dbt run --select +models/core/`
 - `dbt run --select models/staging/+`
 
+## Answer: `dbt run --select models/staging/+`
+
 
 ### Question 4: dbt Macros and Jinja
 
