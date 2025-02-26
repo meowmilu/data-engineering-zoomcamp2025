@@ -210,6 +210,44 @@ Now, what are the values of `p97`, `p95`, `p90` for Green Taxi and Yellow Taxi, 
 - green: {p97: 40.0, p95: 33.0, p90: 24.5}, yellow: {p97: 31.5, p95: 25.5, p90: 19.0}
 - green: {p97: 55.0, p95: 45.0, p90: 26.5}, yellow: {p97: 52.0, p95: 25.5, p90: 19.0}
 
+```sql
+{{
+    config(
+        materialized='table'
+    )
+}}
+
+with trips as (
+    SELECT 
+        EXTRACT(YEAR FROM pickup_datetime) AS year, 
+        EXTRACT(MONTH FROM pickup_datetime) AS month, 
+        service_type, 
+        fare_amount 
+    FROM {{ ref('fact_trips') }}
+    WHERE 
+        fare_amount > 0 AND 
+        trip_distance > 0 AND 
+        payment_type_description IN ('Cash', 'Credit card')
+),
+
+percentile as (
+    SELECT  
+        service_type,
+        year,
+        month,
+        PERCENTILE_CONT(fare_amount, 0.97) OVER (PARTITION BY service_type, year, month) AS p97,
+        PERCENTILE_CONT(fare_amount, 0.95) OVER (PARTITION BY service_type, year, month) AS p95,
+        PERCENTILE_CONT(fare_amount, 0.90) OVER (PARTITION BY service_type, year, month) AS p90
+    FROM trips where year = 2020 and month = 4
+    ORDER BY service_type, year, month
+)
+
+SELECT DISTINCT * FROM percentile
+
+```
+![HW4_Q6](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%204%3A%20Analytics%20Engineering/images/HW4_Q6.png)
+
+## Answer: green: {p97: 55.0, p95: 45.0, p90: 26.5}, yellow: {p97: 31.5, p95: 25.5, p90: 19.0}
 
 ### Question 7: Top #Nth longest P90 travel time Location for FHV
 
