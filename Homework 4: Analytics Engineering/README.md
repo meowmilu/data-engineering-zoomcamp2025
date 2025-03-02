@@ -269,6 +269,131 @@ For the Trips that **respectively** started from `Newark Airport`, `SoHo`, and `
 - LaGuardia Airport, Rosedale, Bath Beach
 - LaGuardia Airport, Yorkville East, Greenpoint
 
+Create `stg_fhv_tripdata.sql`
+```sql
+{{
+    config(
+        materialized='view'
+    )
+}}
+
+with tripdata as 
+(
+  SELECT *
+  FROM {{ source('staging','fhv_tripdata') }}
+  WHERE dispatching_base_num IS NOT NULL
+)
+
+SELECT
+    dispatching_base_num,
+    cast(pickup_datetime as timestamp) as pickup_datetime,
+    cast(dropOff_datetime as timestamp) as dropOff_datetime,
+    {{ dbt.safe_cast("PULocationID", api.Column.translate_type("integer")) }} as pickup_locationid,
+    {{ dbt.safe_cast("DOLocationID", api.Column.translate_type("integer")) }} as dropoff_locationid,
+    SR_Flag,
+    Affiliated_base_number
+FROM tripdata
+
+-- dbt build --select <model_name> --vars '{'is_test_run': 'false'}'
+{% if var('is_test_run', default=true) %}
+
+  limit 100
+
+{% endif %}
+
+```
+Create `dim_fhv_trips.sql`
+```sql
+{{ config(materialized="table") }}
+
+with
+    tripdata as (select * from {{ ref("stg_fhv_tripdata") }}),
+
+    dim_zones as (select * from {{ ref("dim_zones") }} where borough != 'Unknown')
+
+select
+    tripdata.dispatching_base_num,
+    tripdata.pickup_datetime,
+    tripdata.dropoff_datetime,
+    extract(year from tripdata.pickup_datetime) as year,
+    extract(month from tripdata.pickup_datetime) as month,
+    tripdata.pickup_locationid,
+    pickup_zone.borough as pickup_borough,
+    pickup_zone.zone as pickup_zone,
+    tripdata.dropoff_locationid,
+    dropoff_zone.borough as dropoff_borough,
+    dropoff_zone.zone as dropoff_zone,
+    tripdata.sr_flag,
+    tripdata.affiliated_base_number
+from tripdata
+inner join dim_zones as pickup_zone on tripdata.pickup_locationid = pickup_zone.locationid
+inner join dim_zones as dropoff_zone on tripdata.dropoff_locationid = dropoff_zone.locationid
+
+```
+Create a new model `fct_fhv_monthly_zone_traveltime_p90.sql`
+```sql
+{{ config(materialized="table") }}
+
+with
+    trip_duration as (
+        select
+            dispatching_base_num,
+            pickup_locationid,
+            dropoff_locationid,
+            pickup_datetime,
+            dropoff_datetime,
+            pickup_zone,
+            dropoff_zone,
+            year,
+            month
+        from {{ ref("dim_fhv_trips") }}
+        where
+            pickup_zone in ('Newark Airport', 'SoHo', 'Yorkville East')
+            and year = 2019
+            and month = 11
+    )
+
+select
+    year,
+    month,
+    pickup_locationid,
+    dropoff_locationid,
+    pickup_zone,
+    dropoff_zone,
+    percentile_cont(timestamp_diff(dropoff_datetime, pickup_datetime, second), 0.90) over (
+        partition by year, month, pickup_locationid, dropoff_locationid
+    ) as p90
+from trip_duration
+order by pickup_zone, p90 desc
+
+```
+
+Query in bigquery
+```sql
+with ranked_data as (
+    SELECT 
+        pickup_zone,
+        dropoff_zone,
+        p90,
+        DENSE_RANK() OVER (PARTITION BY pickup_zone ORDER BY p90 DESC) AS rank
+
+    FROM  `kestra-nancy.dbt_nlu.fct_fhv_monthly_zone_traveltime_p90` 
+)
+
+SELECT DISTINCT 
+    pickup_zone, 
+    dropoff_zone, 
+    p90
+FROM ranked_data
+WHERE rank = 2;
+```
+
+![HW4_Q7](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%204%3A%20Analytics%20Engineering/images/HW4_Q7.png)
+
+
+
+## Answer: LaGuardia Airport, Chinatown, Garment District
+
 
 ## Submitting the solutions
 
