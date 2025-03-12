@@ -67,6 +67,7 @@ What is the length of the longest trip in the dataset in hours?
 - 162
 - 182
 
+## Answer:162
 
 ## Question 5: User Interface
 
@@ -77,7 +78,7 @@ Spark’s User Interface which shows the application's dashboard runs on which l
 - 4040
 - 8080
 
-
+## Answer: 4040
 
 ## Question 6: Least frequent pickup location zone
 
@@ -94,6 +95,7 @@ Using the zone lookup data and the Yellow October 2024 data, what is the name of
 - Rikers Island
 - Jamaica Bay
 
+## Answer: Governor's Island/Ellis Island/Liberty Island
 
 ## Submitting the solutions
 
