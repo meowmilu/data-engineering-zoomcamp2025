@@ -54,6 +54,9 @@ Consider only trips that started on the 15th of October.
 - 125,567
 - 145,567
 
+## Answer: 128893
+
+![HW5_Q3](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%205%3A%20Batch/images/HW5_Q3.png)
 
 ## Question 4: Longest trip
 
