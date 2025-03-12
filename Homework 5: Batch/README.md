@@ -23,7 +23,7 @@ What's the output?
 > To install PySpark follow this [guide](https://github.com/DataTalksClub/data-engineering-zoomcamp/blob/main/05-batch/setup/pyspark.md)
 
 ## Answer: 3.5.5
-![HW5_Q1](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%204%3A%20Analytics%20Engineering/images/HW5_Q1.png)
+![HW5_Q1](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%205%3A%20Batch/images/HW5_Q1.png)
 
 
 ## Question 2: Yellow October 2024
@@ -40,8 +40,8 @@ What is the average size of the Parquet (ending with .parquet extension) Files t
 - 100MB
 
 ## Answer: 25MB
-![HW5_Q2_1](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%204%3A%20Analytics%20Engineering/images/HW5_Q2_1.png)
-![HW5_Q2_2](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%204%3A%20Analytics%20Engineering/images/HW5_Q2_2.png)
+![HW5_Q2_1](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%205%3A%20Batch/images/HW5_Q2_1.png)
+![HW5_Q2_2](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%205%3A%20Batch/images/HW5_Q2_2.png)
 
 ## Question 3: Count records 
 
