@@ -69,6 +69,8 @@ What is the length of the longest trip in the dataset in hours?
 
 ## Answer:162
 
+![HW5_Q4](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%205%3A%20Batch/images/HW5_Q4.png)
+
 ## Question 5: User Interface
 
 Spark’s User Interface which shows the application's dashboard runs on which local port?
