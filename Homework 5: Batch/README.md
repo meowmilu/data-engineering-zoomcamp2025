@@ -74,6 +74,20 @@ Consider only trips that started on the 15th of October.
 
 ## Answer: 128893
 
+```python
+
+df_yellow.createOrReplaceTempView('trips_data')
+
+spark.sql("""
+
+SELECT
+   count(1)
+FROM trips_data 
+WHERE tpep_pickup_datetime >= '2024-10-15 00:00:00' AND tpep_pickup_datetime < '2024-10-16 00:00:00'
+""").show()
+
+```
+
 ![HW5_Q3](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%205%3A%20Batch/images/HW5_Q3.png)
 
 ## Question 4: Longest trip
