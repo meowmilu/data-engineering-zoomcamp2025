@@ -51,6 +51,13 @@ What is the average size of the Parquet (ending with .parquet extension) Files t
 - 100MB
 
 ## Answer: 25MB
+```python
+!wget https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-10.parquet
+
+df_yellow = spark.read.parquet('yellow_tripdata_2024-10.parquet')
+df_yellow = df_yellow.repartition(4)
+df_yellow.write.parquet('homework_05/yellow', mode='overwrite')
+```
 ![HW5_Q2_1](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%205%3A%20Batch/images/HW5_Q2_1.png)
 ![HW5_Q2_2](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%205%3A%20Batch/images/HW5_Q2_2.png)
 
