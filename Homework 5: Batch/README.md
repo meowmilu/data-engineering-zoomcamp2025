@@ -84,6 +84,7 @@ SELECT
    count(1)
 FROM trips_data 
 WHERE tpep_pickup_datetime >= '2024-10-15 00:00:00' AND tpep_pickup_datetime < '2024-10-16 00:00:00'
+
 """).show()
 
 ```
@@ -100,6 +101,18 @@ What is the length of the longest trip in the dataset in hours?
 - 182
 
 ## Answer:162
+
+```sql
+
+spark.sql("""
+
+SELECT
+   MAX(timestampdiff(hour, tpep_pickup_datetime, tpep_dropoff_datetime)) AS longest_trip_hours
+FROM trips_data 
+
+""").show()
+
+```
 
 ![HW5_Q4](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%205%3A%20Batch/images/HW5_Q4.png)
 
@@ -130,6 +143,27 @@ Using the zone lookup data and the Yellow October 2024 data, what is the name of
 - Jamaica Bay
 
 ## Answer: Governor's Island/Ellis Island/Liberty Island
+
+```python
+
+!wget https://d37ci6vzurychx.cloudfront.net/misc/taxi_zone_lookup.csv
+
+df_zone = spark.read \
+    .option("header", "true") \
+    .csv('taxi_zone_lookup.csv')
+
+df_zone.createOrReplaceTempView('zone_data')
+
+spark.sql("""
+
+select Zone,count(1) as num_trips from trips_data as a
+inner join zone_data as b on a.PULocationID = b.LocationID 
+group by Zone
+order by num_trips
+
+""").show()
+
+```
 
 ![HW5_Q6](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%205%3A%20Batch/images/HW5_Q6.png)
 
