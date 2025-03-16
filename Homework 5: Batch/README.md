@@ -99,6 +99,8 @@ Using the zone lookup data and the Yellow October 2024 data, what is the name of
 
 ## Answer: Governor's Island/Ellis Island/Liberty Island
 
+![HW5_Q6](https://github.com/meowmilu/data-engineering-zoomcamp2025/blob/main/Homework%205%3A%20Batch/images/HW5_Q6.png)
+
 ## Submitting the solutions
 
 - Form for submitting: https://courses.datatalks.club/de-zoomcamp-2025/homework/hw5
